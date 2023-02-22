@@ -11,7 +11,7 @@ import { NavigationContainer } from '@react-navigation/native'
 import Feather from 'react-native-vector-icons/Feather'
 import Account from './screens/Account';
 import auth from '@react-native-firebase/auth';
-import EditModal from './screens/EditModal';
+import EditScreen from './screens/EditScreen';
 
 const MainScreen = () => {
   const theme = {
@@ -60,7 +60,7 @@ const MainScreen = () => {
       return (
         <Stack.Navigator screenOptions={{headerShown:false}}> 
           <Stack.Screen name='TabNavigator' component={TabNavigator} />
-          <Stack.Screen name='EditModal' component={EditModal} />
+          <Stack.Screen name='EditScreen' component={EditScreen} />
 
         </Stack.Navigator>
       )

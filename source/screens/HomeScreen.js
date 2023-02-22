@@ -43,7 +43,7 @@ const HomeScreen = ({ navigation }) => {
         return (
             <TouchableOpacity
                 onLongPress={() => deleteItem(item.id)}
-                onPress={() => navigation.navigate('EditModal', {
+                onPress={() => navigation.navigate('EditScreen', {
                     item: item
                 })}
                 style={styles.cardContainer}
