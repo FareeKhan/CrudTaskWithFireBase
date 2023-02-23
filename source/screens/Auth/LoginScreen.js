@@ -22,7 +22,10 @@ const LoginScreen = ({ navigation }) => {
         } catch (error) {
             setIsLoader(false)
             console.log(error)
-            if (error.code == 'auth/too-many-requests') {
+            if (error.code == 'auth/invalid-email') {
+                alert('Email Formate is not Correct.')
+              }   
+                if (error.code == 'auth/too-many-requests') {
                 alert('We have blocked all requests from this device due to unusual activity. Try again later.')
               }
             if (error.code == 'auth/wrong-password') {
