@@ -1,8 +1,8 @@
 import { ActivityIndicator, Image, KeyboardAvoidingView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
-import { TextInput, Button } from 'react-native-paper'
+import { Button } from 'react-native-paper'
 import auth from '@react-native-firebase/auth'
-import CustomInput from '../Components/CustomInput'
+import CustomInput from '../../Components/CustomInput'
 
 const LoginScreen = ({ navigation }) => {
     const [email, setEmail] = useState('')
@@ -22,6 +22,9 @@ const LoginScreen = ({ navigation }) => {
         } catch (error) {
             setIsLoader(false)
             console.log(error)
+            if (error.code == 'auth/too-many-requests') {
+                alert('We have blocked all requests from this device due to unusual activity. Try again later.')
+              }
             if (error.code == 'auth/wrong-password') {
                 alert('The password is invalid or the user does not have a password')
             }
@@ -33,11 +36,10 @@ const LoginScreen = ({ navigation }) => {
         }
     }
 
-
     return (
         <ScrollView style={styles.mainContainer}>
             <View style={styles.imgContainer}>
-                <Image style={styles.imgStyle} source={require('../assets/cnqlogo.png')} />
+                <Image style={styles.imgStyle} source={require('../../assets/cnqlogo.png')} />
                 <Text style={styles.title}>Please Login to Continue</Text>
             </View>
             <View>
@@ -58,7 +60,7 @@ const LoginScreen = ({ navigation }) => {
             {isLaoder ?
                 <ActivityIndicator size={22} color={'deepskyblue'} style={{ marginTop: 20 }} /> :
                 <Button style={{ marginTop: 20 }} mode="contained" onPress={login}>
-                    Press me
+                    Login
                 </Button>}
 
             <TouchableOpacity style={{ marginTop: 10 }} onPress={() => navigation.navigate('SignUp')}>
@@ -76,7 +78,6 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff",
         paddingHorizontal: 24,
         paddingTop: 50
-
     },
     imgContainer: {
         alignItems: "center",
@@ -87,7 +88,8 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 20,
-        fontWeight: "500"
+        fontWeight: "500",
+        color:'#000'
     },
     inputStyle: {
         marginTop: 20

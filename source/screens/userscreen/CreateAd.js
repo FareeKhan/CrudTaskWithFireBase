@@ -5,9 +5,9 @@ import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import { launchCamera } from 'react-native-image-picker';
 import storage from '@react-native-firebase/storage';
-import CarNames from '../Components/Dropdown/CarNames';
-import CarModels from '../Components/Dropdown/CarModels';
-import ColorName from '../Components/Dropdown/ColorName';
+import CarNames from '../../Components/Dropdown/CarNames';
+import CarModels from '../../Components/Dropdown/CarModels';
+import ColorName from '../../Components/Dropdown/ColorName';
 import ImageCropPicker from 'react-native-image-crop-picker';
 
 const {width}=Dimensions.get('screen')
@@ -39,14 +39,13 @@ const CreateAd = ({navigation}) => {
           data.id = snapshot.id
           snapshot.set(data)
         })
-        Alert.alert('Alert Title', 'Data Posted', [
+        Alert.alert('Alert Title', 'Data added Successfully', [
           {
               text: 'OK', onPress: () => {
                   navigation.navigate('HomeScreen')
               }
           },
       ]);
-      }
       setRegisteration('')
       setCarNameId('')
       setCarName('')
@@ -55,6 +54,8 @@ const CreateAd = ({navigation}) => {
       setColorId('')
       setColorName('')
       setImage('')
+      }
+
       setIsLoader(false)
     } catch (error) {
       console.log(error)
@@ -90,7 +91,7 @@ const CreateAd = ({navigation}) => {
         (snapshot) => {
           const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           if (progress == 100) {
-            alert('Image Uploaded')
+            alert('Image Uploaded Successfully')
           }
         },
         (error) => {
@@ -98,7 +99,6 @@ const CreateAd = ({navigation}) => {
         },
         () => {
           uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-            console.log('File available at', downloadURL);
             setImage(downloadURL);
           });
         }
@@ -123,28 +123,33 @@ const CreateAd = ({navigation}) => {
         <CarNames
           carId={setCarNameId}
           setCarName={setCarName}
+          carNameId={carNameId}
+
         />
 
         <CarModels
           modelId={setCarModelId}
           modelYear={setModelYear}
+          modelsId={carModelId}
+
         />
 
         <ColorName
           colorId={setColorId}
           colorName={setColorName}
+          colorsId={colorId}
         />
 
         <View style={{ paddingTop: 20 }}>
-          <Button icon="camera" mode="contained" onPress={() => takeImageFromGallery()}>
-            Upload Image
-          </Button>
-          {
+        {
             image &&
-            <View style={{ marginTop: 10 }}>
+            <View style={{ marginVertical: 10 }}>
               <Image source={{ uri: image }} style={{ width: imgWidth, height: 150, borderRadius: 10 }} resizeMode='cover' />
             </View>
           }
+          <Button icon="camera" mode="contained" onPress={() => takeImageFromGallery()}>
+            Upload Image
+          </Button>
 
           {isLoader ?
             <ActivityIndicator size={30} color={'deepskyblue'}  style={{ marginTop: 20 }} />
@@ -171,12 +176,16 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     textAlign: "center",
-    marginBottom: 15
+    marginBottom: 15,
+     fontWeight: '500',
+     color:"#000"
+
   },
   inputTitle:{ 
     fontSize: 16,
-     fontWeight: '500',
-      color: "#000" 
+      color: "#000" ,
+      marginBottom:5
+
     },
   inputStyle: {
     backgroundColor: "#fff",

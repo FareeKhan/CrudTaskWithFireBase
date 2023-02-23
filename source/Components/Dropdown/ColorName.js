@@ -20,6 +20,8 @@ const ColorName = ({colorId,colorName,colorsId}) => {
 },[colorsId])
 
 
+
+
   const onpress =(item)=>{
     setValue(item.value);
     setIsFocus(false);
@@ -30,7 +32,7 @@ const ColorName = ({colorId,colorName,colorsId}) => {
 
   return (
     <View style={styles.container}>
-      <Text style={{fontSize:16,fontWeight:'500',color:"#000"}}>Car Colors</Text>
+      <Text style={{ fontSize: 16,marginBottom:5, color: "#000" }}>Car Colors</Text>
       <Dropdown
         style={[styles.dropdown, isFocus && { borderColor: 'deepskyblue' }]}
         placeholderStyle={styles.placeholderStyle}

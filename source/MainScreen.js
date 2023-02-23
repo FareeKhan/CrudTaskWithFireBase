@@ -1,17 +1,19 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import LoginScreen from './screens/LoginScreen'
+
 import { MD3LightTheme as DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
-import SignUp from './screens/SignUp';
-import CreateAd from './screens/CreateAd';
-import HomeScreen from './screens/HomeScreen';
 import { createStackNavigator } from '@react-navigation/stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { NavigationContainer } from '@react-navigation/native'
 import Feather from 'react-native-vector-icons/Feather'
-import Account from './screens/Account';
 import auth from '@react-native-firebase/auth';
-import EditScreen from './screens/EditScreen';
+
+import LoginScreen from './screens/Auth/LoginScreen'
+import SignUp from './screens/Auth/SignUp';
+import CreateAd from './screens/userscreen/CreateAd';
+import Account from './screens/userscreen/Account';
+import EditScreen from './screens/userscreen/EditScreen';
+import HomeScreen from './screens/userscreen/HomeScreen';
 
 const MainScreen = () => {
   const theme = {
@@ -22,11 +24,12 @@ const MainScreen = () => {
     },
   };
 
-
-
-
   const Navigation = () => {
     const [user, setUser] = useState('')
+
+    useEffect(() => {
+      userExist()
+    }, [])
 
     const userExist = () => {
       auth().onAuthStateChanged((user) => {
@@ -39,10 +42,6 @@ const MainScreen = () => {
       }
       )
     }
-
-    useEffect(() => {
-      userExist()
-    }, [])
 
     const AuthNavigation = () => {
       const Stack = createStackNavigator()
@@ -61,15 +60,11 @@ const MainScreen = () => {
         <Stack.Navigator screenOptions={{headerShown:false}}> 
           <Stack.Screen name='TabNavigator' component={TabNavigator} />
           <Stack.Screen name='EditScreen' component={EditScreen} />
-
         </Stack.Navigator>
       )
   
     }
   
-
-
-
     const TabNavigator = () => {
       const Tab = createBottomTabNavigator()
       return (
@@ -100,8 +95,6 @@ const MainScreen = () => {
         </Tab.Navigator>
       )
     }
- 
-
 
     return (
       <NavigationContainer >
@@ -111,7 +104,6 @@ const MainScreen = () => {
       </NavigationContainer>
     )
   }
-
 
   return (
     <PaperProvider theme={theme}>

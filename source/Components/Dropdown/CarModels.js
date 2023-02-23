@@ -11,26 +11,17 @@ const data = [
   { label: '2018', value: '5' },
 ];
 
-const CarModels = ({modelId,modelYear,modelsId,modelsYear}) => {
+const CarModels = ({ modelId, modelYear, modelsId, modelsYear }) => {
   const [value, setValue] = useState(modelsId);
   const [isFocus, setIsFocus] = useState(false);
+  console.log(value)
+  console.log(isFocus)
 
-//   const renderLabel = () => {
-//     if (value || isFocus) {
-//       return (
-//         <Text style={[styles.label, isFocus && { color: 'deepskyblue' }]}>
-//            Car Models
-//         </Text>
-//       );
-//     }
-//     return null;
-//   };
-useEffect(()=>{
-  setValue(modelsId)
-},[modelsId])
+  useEffect(() => {
+    setValue(modelsId)
+  }, [modelsId])
 
-
-  const onpress =(item)=>{
+  const onpress = (item) => {
     setValue(item.value);
     setIsFocus(false);
     modelId(item.value)
@@ -41,7 +32,7 @@ useEffect(()=>{
   return (
     <View style={styles.container}>
       {/* {renderLabel()} */}
-      <Text style={{fontSize:16,fontWeight:'500',color:"#000"}}>Car Model</Text>
+      <Text style={{ fontSize: 16,marginBottom:5, color: "#000" }}>Car Model</Text>
       <Dropdown
         style={[styles.dropdown, isFocus && { borderColor: 'deepskyblue' }]}
         placeholderStyle={styles.placeholderStyle}
@@ -59,16 +50,16 @@ useEffect(()=>{
         onFocus={() => setIsFocus(true)}
         onBlur={() => setIsFocus(false)}
         onChange={item => {
-         onpress(item)
+          onpress(item)
         }}
-        // renderLeftIcon={() => (
-        //   <AntDesign
-        //     style={styles.icon}
-        //     color={isFocus ? 'blue' : 'black'}
-        //     name="Safety"
-        //     size={20}
-        //   />
-        // )}
+      // renderLeftIcon={() => (
+      //   <AntDesign
+      //     style={styles.icon}
+      //     color={isFocus ? 'blue' : 'black'}
+      //     name="Safety"
+      //     size={20}
+      //   />
+      // )}
       />
     </View>
   );
@@ -80,8 +71,8 @@ const styles = StyleSheet.create({
   container: {
     // backgroundColor: 'white',
     // padding: 16,
-    paddingTop:16,
-    
+    paddingTop: 16,
+
   },
   dropdown: {
     height: 50,

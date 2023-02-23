@@ -1,4 +1,4 @@
-import { Image, Modal, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Alert, Image, Modal, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 
 import { Button } from 'react-native-paper'
@@ -6,9 +6,9 @@ import { launchCamera } from 'react-native-image-picker'
 import storage from '@react-native-firebase/storage'
 import firestore from '@react-native-firebase/firestore'
 import ImageCropPicker from 'react-native-image-crop-picker'
-import CarNames from '../Components/Dropdown/CarNames'
-import ColorName from '../Components/Dropdown/ColorName'
-import CarModels from '../Components/Dropdown/CarModels'
+import CarNames from '../../Components/Dropdown/CarNames'
+import ColorName from '../../Components/Dropdown/ColorName'
+import CarModels from '../../Components/Dropdown/CarModels'
 import Iconic from 'react-native-vector-icons/Ionicons'
 
 const EditModal = ({ navigation,route }) => {
@@ -16,7 +16,7 @@ const EditModal = ({ navigation,route }) => {
     const [itemId, setItemId] = useState(item.id)
 
     const [registeration, setRegisteration] = useState(item?.registeration)
-    const [image, setImage] = useState('')
+    const [image, setImage] = useState(item?.image ?item.image :'')
 
     const [carNameId, setCarNameId] = useState('')
     const [carName, setCarName] = useState(item?.carName ? item.carName : '')
@@ -49,20 +49,23 @@ const EditModal = ({ navigation,route }) => {
                     colorName,
                     image
                 })
+                Alert.alert('Alert Title', 'Updated Successfully', [
+
+                    {
+                        text: 'ok', onPress: () => {
+                          navigation.goBack()
+                        }
+                    },
+                ]);
             }
-            setRegisteration('')
-            setCarNameId('')
-            setCarName('')
-            setCarModelId('')
-            setModelYear('')
-            setColorId('')
-            setColorName('')
+          
 
         } catch (error) {
             console.log(error)
         }
     }
 
+    console.log(image)
     const takeImageFromGallery = async () => {
         ImageCropPicker.openPicker({
             width: 300,
@@ -77,7 +80,7 @@ const EditModal = ({ navigation,route }) => {
                 (snapshot) => {
                     const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
                     if (progress == 100) {
-                        alert('Image Uploaded')
+                        alert('Image Uploaded Successfully')
                     }
                 },
                 (error) => {
@@ -94,7 +97,7 @@ const EditModal = ({ navigation,route }) => {
             console.log(error)
         })
     }
-
+console.log(image)
     return (
         <View style={styles.modalContainer}>
             <View style={styles.innerContainer}>
@@ -133,21 +136,12 @@ const EditModal = ({ navigation,route }) => {
                         colorsName={colorName}
                     />
                     <View style={{ paddingTop: 20 }}>
-                        {
-                            image ?
-
                                 <TouchableOpacity onPress={() => takeImageFromGallery()}>
-                                    <Image style={{ width: 350, height: 150, borderRadius: 10 }} source={{ uri: image }} />
+                                    <Image style={{ width: 350, height: 150, borderRadius: 10 }} source={ { uri: image}} />
                                 </TouchableOpacity>
-                                :
-
-                                <TouchableOpacity onPress={() => takeImageFromGallery()}>
-                                    <Image style={{ width: 350, height: 150, borderRadius: 10 }} source={{ uri: item.image }} />
-                                </TouchableOpacity>
-
-                        }
+                              
                         <Button style={{ marginTop: 40 }} mode="contained" onPress={() => updateData()}>
-                            Post
+                            Update
                         </Button>
                     </View>
                 </View>

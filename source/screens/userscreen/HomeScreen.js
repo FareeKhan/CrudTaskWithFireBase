@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react'
 import firestore from '@react-native-firebase/firestore';
 import Iconic from 'react-native-vector-icons/Ionicons'
 
-
 const HomeScreen = ({ navigation }) => {
     const [allData, setAllData] = useState([])
     const [refresh, setRefresh] = useState(false)
@@ -25,10 +24,10 @@ const HomeScreen = ({ navigation }) => {
             {
                 text: 'Cancel',
                 onPress: () => console.log('Cancel Pressed'),
-                style: 'cancel',
+                style: 'NO',
             },
             {
-                text: 'OK', onPress: () => {
+                text: 'YES', onPress: () => {
                     firestore().collection('ads').doc(value).delete().then(
                         console.log('Deleted')
                        
@@ -49,8 +48,11 @@ const HomeScreen = ({ navigation }) => {
                 style={styles.cardContainer}
             >
                 {
-                    item.image &&
+                    item.image ?
                     <Image source={{ uri: item.image }} style={{ width: 80, height: 80, borderRadius: 50 }} />
+                    :
+                    <Image source={require('../../assets/noImage.png')} style={{ width: 80, height: 80, borderRadius: 50 }} />
+
                 }
                 <View style={styles.contentContainer}>
                     <View>
@@ -105,6 +107,9 @@ const HomeScreen = ({ navigation }) => {
                     :
                     <View style={styles.noDataMsg}>
                         <Text style={{ fontSize: 16 }}>No Car Registered</Text>
+                        <TouchableOpacity onPress={()=>navigation.navigate('CreateAd')}>
+                             <Text style={{ color:'deepskyblue' }}>Click Here to Register car</Text>
+                        </TouchableOpacity>
                     </View>
 
 
@@ -120,21 +125,21 @@ export default HomeScreen
 const styles = StyleSheet.create({
     mainContainer: {
         flex: 1,
-        paddingTop: 10,
+        // paddingTop: 10,
         paddingHorizontal: 24,
         backgroundColor: "#ffffff80"
     },
     title: {
         fontSize: 24,
-        color: "deepskyblue",
+        color: "#000",
         fontWeight: "500",
         textAlign: "center",
         fontStyle: "italic",
-        textDecorationLine: "underline",
-        textDecorationColor: 'deepskyblue'
+        paddingVertical:20
+    
     },
     card: {
-        marginTop: 30
+        // marginTop: 30
     },
     cardContainer: {
         padding: 5,

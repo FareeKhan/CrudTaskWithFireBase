@@ -2,7 +2,7 @@ import { Alert, Image, KeyboardAvoidingView, StyleSheet, Text, TouchableOpacity,
 import React, { useState } from 'react'
 import { TextInput, Button } from 'react-native-paper'
 import auth from '@react-native-firebase/auth'
-import CustomInput from '../Components/CustomInput'
+import CustomInput from '../../Components/CustomInput'
 
 const SignUp = ({ navigation }) => {
     const [email, setEmail] = useState('')
@@ -15,8 +15,6 @@ const SignUp = ({ navigation }) => {
         error: false,
         text: ''
     })
-
-
 
     const register = async () => {
         try {
@@ -49,6 +47,9 @@ const SignUp = ({ navigation }) => {
                     text: ''
                 })
             }
+            if (error.code == 'auth/invalid-email'){
+                alert('The Email address is Badly Formated')
+            }
             if (error.code == 'auth/weak-password') {
                 setPasswordError({
                     error: true,
@@ -67,7 +68,7 @@ const SignUp = ({ navigation }) => {
     return (
         <View style={styles.mainContainer}>
             <View style={styles.imgContainer}>
-                <Image style={styles.imgStyle} source={require('../assets/cnqlogo.png')} />
+                <Image style={styles.imgStyle} source={require('../../assets/cnqlogo.png')} />
                 <Text style={styles.title}>Create an account</Text>
             </View>
 
@@ -93,18 +94,16 @@ const SignUp = ({ navigation }) => {
                     passwordError.error &&
                     <Text style={{ color: "red" }}>{passwordError.text}</Text>}
             </View>
-
             <Button
                 onPress={register}
                 style={{ marginTop: 20 }}
                 mode="contained"
             >
-                Press me
+                Sign Up
             </Button>
             <TouchableOpacity style={{ marginTop: 10 }} onPress={() => navigation.goBack()}>
                 <Text style={{ color: 'blue' }}>Have an account?</Text>
             </TouchableOpacity>
-
         </View>
     )
 
@@ -127,7 +126,8 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 20,
-        fontWeight: "500"
+        fontWeight: "500",
+        color:'#000'
     },
     inputStyle: {
         marginTop: 20

@@ -19,17 +19,9 @@ const CarNames = ({carId,setCarName,carNameId}) => {
   useEffect(()=>{
     setValue(carNameId)
 },[carNameId])
-   
-  // const renderLabel = () => {
-  //   if (value || isFocus) {
-  //     return (
-  //       <Text style={[styles.label, isFocus && { color: 'deepskyblue' }]}>
-  //          Car Models
-  //       </Text>
-  //     );
-  //   }
-  //   return null;
-  // };
+  
+
+
 
   const onpress =(item)=>{
     setValue(item.value);
@@ -42,7 +34,7 @@ const CarNames = ({carId,setCarName,carNameId}) => {
   return (
     <View style={styles.container}>
       {/* {renderLabel()} */}
-      <Text style={{fontSize:16,fontWeight:'500',color:"#000"}}>Car Names</Text>
+      <Text style={{ fontSize: 16,marginBottom:5, color: "#000" }}>Car Names</Text>
       <Dropdown
         style={[styles.dropdown, isFocus && { borderColor: 'deepskyblue' }]}
         placeholderStyle={styles.placeholderStyle}
