@@ -1,8 +1,10 @@
-import { Alert, Image, KeyboardAvoidingView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
-import { TextInput, Button } from 'react-native-paper'
+import { Button } from 'react-native-paper'
 import auth from '@react-native-firebase/auth'
 import CustomInput from '../../Components/CustomInput'
+import messaging from '@react-native-firebase/messaging'
+import firebase from '@react-native-firebase/firestore'
 
 const SignUp = ({ navigation }) => {
     const [email, setEmail] = useState('')
@@ -21,10 +23,15 @@ const SignUp = ({ navigation }) => {
             if (!email || !password) {
                 alert('Please filled the required fields')
             } else {
-                const result = await auth().createUserWithEmailAndPassword(email, password)
-                await auth().signOut()
-                    .then(() => console.log('User signed out!'));
-                console.log(result.user)
+              await auth().createUserWithEmailAndPassword(email, password)
+                // await auth().signOut()
+                messaging().getToken().then((token) => {
+                    firebase().collection('userToken').add({
+                        token: token
+                    })
+                    console.log(token)
+                })
+
                 setEmailError({
                     error: false,
                     text: ''
@@ -34,7 +41,6 @@ const SignUp = ({ navigation }) => {
                     text: ''
                 })
 
-                console.log(emailError, passwordError)
             }
         } catch (error) {
             if (error.code == 'auth/email-already-in-use') {
@@ -47,7 +53,7 @@ const SignUp = ({ navigation }) => {
                     text: ''
                 })
             }
-            if (error.code == 'auth/invalid-email'){
+            if (error.code == 'auth/invalid-email') {
                 alert('The Email address is Badly Formated')
             }
             if (error.code == 'auth/weak-password') {
@@ -127,7 +133,7 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 20,
         fontWeight: "500",
-        color:'#000'
+        color: '#000'
     },
     inputStyle: {
         marginTop: 20

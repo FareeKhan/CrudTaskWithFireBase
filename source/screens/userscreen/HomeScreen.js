@@ -60,7 +60,7 @@ const HomeScreen = ({ navigation }) => {
                         <Text style={styles.titleDes}>{item.registeration}</Text>
                         <Text style={styles.yearText}>{item.modelYear}</Text>
                     </View>
-                    <TouchableOpacity onPress={() => navigation.navigate('EditModal', {
+                    <TouchableOpacity onPress={() => navigation.navigate('EditScreen', {
                         item: item,
                         docId: docId
                     })}>

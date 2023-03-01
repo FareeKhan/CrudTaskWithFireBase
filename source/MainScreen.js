@@ -15,6 +15,8 @@ import Account from './screens/userscreen/Account';
 import EditScreen from './screens/userscreen/EditScreen';
 import HomeScreen from './screens/userscreen/HomeScreen';
 
+import messaging from '@react-native-firebase/messaging';
+
 const MainScreen = () => {
   const theme = {
     ...DefaultTheme,
@@ -104,6 +106,13 @@ const MainScreen = () => {
       </NavigationContainer>
     )
   }
+
+
+  useEffect(()=>{
+    messaging().getToken().then(token =>{
+      console.log(token)
+    })
+  },[])
 
   return (
     <PaperProvider theme={theme}>

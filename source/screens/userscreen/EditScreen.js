@@ -65,7 +65,6 @@ const EditModal = ({ navigation,route }) => {
         }
     }
 
-    console.log(image)
     const takeImageFromGallery = async () => {
         ImageCropPicker.openPicker({
             width: 300,
@@ -73,7 +72,6 @@ const EditModal = ({ navigation,route }) => {
             cropping: true,
             mediaType: 'photo'
         }).then(res => {
-            console.log(res)
             const uploadTask = storage().ref().child(`/items/${Date.now()}`).putFile(res.path)
             // NewCode
             uploadTask.on('state_changed',
@@ -97,7 +95,6 @@ const EditModal = ({ navigation,route }) => {
             console.log(error)
         })
     }
-console.log(image)
     return (
         <View style={styles.modalContainer}>
             <View style={styles.innerContainer}>

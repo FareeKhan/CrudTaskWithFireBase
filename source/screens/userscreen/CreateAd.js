@@ -28,12 +28,29 @@ const CreateAd = ({navigation}) => {
 
   const [isLoader, setIsLoader] = useState(false)
 
+  const sendNoti = ()=>{
+    firestore().collection('userToken').get().then((querySnap)=>{
+        const userDeviceToken = querySnap.docs.map((snap)=>{
+             return snap.data().token
+        })
+        console.log(userDeviceToken)
+        fetch('https://0b71-2407-d000-f-1a3-2188-7387-cce3-508e.ap.ngrok.io/send_noti',{
+          method:'post',
+          headers:{
+            'Content-Type' : 'application/json'
+          },
+          body : JSON.stringify({
+            tokens:userDeviceToken
+          })
+        })
+    })
+  }
+
   const createAds = async (data) => {
     setIsLoader(true)
     try {
       if (!registeration || !carName || !modelYear || !colorName   ) {
         Alert.alert("Please Fill all fields")
-        console.log(!registeration || !carName  || !modelYear  || !colorName )
       } else {
         await firestore().collection('ads').add(data).then((snapshot) => {
           data.id = snapshot.id
@@ -58,7 +75,6 @@ const CreateAd = ({navigation}) => {
 
       setIsLoader(false)
     } catch (error) {
-      console.log(error)
       setIsLoader(false)
     }
   }
@@ -156,8 +172,11 @@ const CreateAd = ({navigation}) => {
             :
             <Button disabled={image ? false : true} style={{ marginTop: 20 }} mode="contained" onPress={() => dataSetter()}>
               Post
-            </Button>
+            </Button>    
           }
+              <Button  style={{ marginTop: 20 }} mode="contained" onPress={() => sendNoti()}>
+              Show Server Response
+            </Button>
         </View>
       </View>
     </ScrollView>
